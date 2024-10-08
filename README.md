@@ -59,9 +59,7 @@ sudo cp ~/emulatorcert.crt /usr/local/share/ca-certificates/
 ```
 sudo update-ca-certificates
 ```
-```
-sudo update-ca-trust
-```
+
 ### Extensão do VSCode
 [Azure Databases](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb?wt.mc_id=AZ-MVP-5003638)
 ### Endpoint do simulador
