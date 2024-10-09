@@ -59,6 +59,7 @@ sudo cp ~/emulatorcert.crt /usr/local/share/ca-certificates/
 ```
 sudo update-ca-certificates
 ```
+### IMPORTANTE: nas configurações do CodeSpace desabilitar a opção http.proxyStrictSSL
 
 ### Extensão do VSCode
 [Azure Databases](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb?wt.mc_id=AZ-MVP-5003638)
