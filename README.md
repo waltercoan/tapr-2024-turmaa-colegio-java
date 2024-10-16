@@ -63,10 +63,24 @@ sudo update-ca-certificates
 
 ### Extensão do VSCode
 [Azure Databases](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-cosmosdb?wt.mc_id=AZ-MVP-5003638)
+
 ### Endpoint do simulador
 ```
 AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;
 ```
+
+### Geração do SSL Key Store
+- IMPORTANTE: utilizar a senha univille
+```
+cd /workspaces/tapr-2024-turmab-<NOME DO SEU PROJETO>-java
+keytool -importcert -file ~/emulatorcert.crt -keystore native.jks -alias cosmosdb
+```
+- Alterar o arquivo launch.json para incluir os parâmetros de VM
+```
+    "vmArgs": ["-Djavax.net.ssl.trustStore=/workspaces/tapr-2024-turmab-<NOME DO SEU PROJETO>-java/native.jks",
+               "-Djavax.net.ssl.trustStorePassword=univille"]
+```
+
 ### Modelagem de dados
 [Modeling Data](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/modeling-data?wt.mc_id=AZ-MVP-5003638)
 
