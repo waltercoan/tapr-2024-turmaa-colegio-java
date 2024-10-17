@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservcolegioApplication<microservcolegio>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.univille.microservcolegio.MicroservcolegioApplication",
+            "projectName": "microservcolegio",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": ["-Djavax.net.ssl.trustStore=/workspaces/tapr-2024-turmab-colegio-java/native.jks",
+                       "-Djavax.net.ssl.trustStorePassword=univille"]
+
+        }
+    ]
+}
