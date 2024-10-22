@@ -2,7 +2,16 @@ package br.univille.microservcolegio.secretaria.entity;
 
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import com.azure.spring.data.cosmos.core.mapping.Container;
+import com.azure.spring.data.cosmos.core.mapping.GeneratedValue;
+import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+
+@Container(containerName = "aluno", autoCreateContainer = true)
 public class Aluno {
+    @Id
+    @PartitionKey
+    @GeneratedValue
     private UUID id;
     private String nome;
     
