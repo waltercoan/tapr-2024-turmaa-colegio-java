@@ -72,6 +72,10 @@ AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJI
 ### Geração do SSL Key Store
 - IMPORTANTE: utilizar a senha univille
 ```
+curl --insecure https://localhost:8081/_explorer/emulator.pem > ~/emulatorcert.crt
+sudo cp ~/emulatorcert.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+
 cd /workspaces/tapr-2024-turmab-<NOME DO SEU PROJETO>-java
 keytool -importcert -file ~/emulatorcert.crt -keystore native.jks -alias cosmosdb
 ```
@@ -169,4 +173,148 @@ keytool -importcert -file ~/emulatorcert.crt -keystore native.jks -alias cosmosd
 - Criar o arquivo .env na raiz do projeto setando o profile default para dev
 ```
 SPRING_PROFILES_ACTIVE=dev
+```
+### Erro CORS
+- [O que é o erro de CORS](https://pt.wikipedia.org/wiki/Cross-origin_resource_sharing#:~:text=Cross-origin%20resource%20sharing%20%E2%80%93%20Wikip%C3%A9dia%2C%20a%20enciclop%C3%A9dia%20livre,pertence%20o%20recurso%20que%20ser%C3%A1%20recuperado.%20%5B%201%5D)
+
+
+#### Solução
+- Criaruma pasta config
+- Criar a classe WebConfig.java
+```
+package br.edu.univille.microservcolegio.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer  {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+
+    }
+}
+```
+
+## CRUD API REST
+### Verbo GET e POST
+- Objetivo: Retornar uma lista de objetos ou salvar um objeto
+
+#### AlunoService.java
+- Criar os métodos na interface do serviço
+
+```
+package br.univille.microservcolegio.secretaria.service;
+import java.util.List;
+
+import br.univille.microservcolegio.secretaria.entity.Aluno;
+
+public interface AlunoService {
+    
+    List<Aluno> getAll();
+    Aluno save(Aluno aluno);
+
+```
+#### AlunoServiceImpl.java
+- Implementar a lógica de consulta na classe concreta do serviço
+```
+package br.univille.microservcolegio.secretaria.service.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.univille.microservcolegio.secretaria.entity.Aluno;
+import br.univille.microservcolegio.secretaria.repository.AlunoRepository;
+import br.univille.microservcolegio.secretaria.service.AlunoService;
+
+@Service
+public class AlunoServiceImpl 
+    implements AlunoService{
+
+    @Autowired
+    private AlunoRepository repository;
+
+    @Override
+    public List<Aluno> getAll() {
+        var retorno = repository.findAll();
+        List<Aluno> listaAlunos = new ArrayList<Aluno>();
+        retorno.forEach(listaAlunos::add);
+
+        return listaAlunos;
+    }
+
+    @Override
+    public Aluno save(Aluno aluno) {
+        return repository.save(aluno);
+    }
+
+```
+
+#### AlunoAPIController.java
+- Implememntar no controlador os métodos para buscar do banco todos os aluno e salvar um aluno
+
+```
+package br.univille.microservcolegio.secretaria.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.univille.microservcolegio.secretaria.entity.Aluno;
+import br.univille.microservcolegio.secretaria.service.AlunoService;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/alunos")
+public class AlunoAPIController {
+
+    @Autowired
+    private AlunoService service;
+
+    @GetMapping
+    public ResponseEntity<List<Aluno>> get(){
+        var listaAlunos = service.getAll();
+
+        return new ResponseEntity<List<Aluno>>(listaAlunos,HttpStatus.OK);
+    }
+    @PostMapping
+    public ResponseEntity<Aluno> post(@RequestBody Aluno aluno){
+        if(aluno == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        var alunoSalvo = service.save(aluno);
+
+        return new ResponseEntity<Aluno>(alunoSalvo, HttpStatus.OK);
+    }
+
+}
+```
+
+#### teste.rest
+- Implementação do teste do verbo GET e POST
+
+```
+### Buscar todos os alunos
+GET http://localhost:8080/api/v1/alunos
+
+### Inserir um aluno
+POST http://localhost:8080/api/v1/alunos
+Content-Type: application/json
+
+{
+    "nome" : "zezinho"
+}
 ```
