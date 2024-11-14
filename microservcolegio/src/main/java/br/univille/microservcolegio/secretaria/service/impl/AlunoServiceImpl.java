@@ -29,5 +29,29 @@ public class AlunoServiceImpl implements AlunoService {
     public Aluno save(Aluno aluno) {
         return repository.save(aluno);
     }
+
+    @Override
+    public Aluno update(String id, Aluno aluno) {
+        var buscaAluno = repository.findById(id);
+        if(buscaAluno.isPresent()){
+            var alunoAntigo = buscaAluno.get();
+            //atualizo os atributos
+            alunoAntigo.setNome(aluno.getNome());
+            repository.save(alunoAntigo);
+            return alunoAntigo;
+        }
+        return null;
+    }
+
+    @Override
+    public Aluno delete(String id) {
+        var buscaAluno = repository.findById(id);
+        if(buscaAluno.isPresent()){
+            var alunoAntigo = buscaAluno.get();
+            repository.delete(alunoAntigo);
+            return alunoAntigo;
+        }
+        return null;
+    }
     
 }

@@ -7,4 +7,6 @@ import br.univille.microservcolegio.secretaria.entity.Aluno;
 public interface AlunoService {
     List<Aluno> getAll();
     Aluno save(Aluno aluno);
+    Aluno update(String id, Aluno aluno);
+    Aluno delete(String id);
 }
