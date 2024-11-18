@@ -409,7 +409,7 @@ version: 1
 common:
   resourcesPath: ./components/
 apps:
-  - appID: tapr-2023-equipe1-carro-java
+  - appID: tapr-2024-NOMEDOMICROSERVICO-java
     appDirPath: ./target/
     appPort: 8080
     command: ["java", "-jar", "NOMEDOARQUIVOJARCOMOPROJETO-SNAPSHOT.jar"]
@@ -538,7 +538,7 @@ dapr run -f .
 #Exemplo de publicação de atualização do evento
 # dapr publish --publish-app-id <nome da aplicação no arquivo dapr.yaml> --pubsub <nome do componente do service bus no arquivo /componenets/servicebus-pubsub.yaml> --topic <nome do topico registrado no service bus> --data '<objeto JSON contendo os campos da entidade>'
 
-dapr publish --publish-app-id tapr-2023-equipe1-carro-java --pubsub servicebus-pubsub --topic topico-equipe-0-cliente --data '{"id": "123","nome": "Zezinho","endereco": "Rua lalala 100"}'
+dapr publish --publish-app-id tapr-2024-NOMEDOMICROSERVICO-java --pubsub servicebus-pubsub --topic topico-equipe-0-cliente --data '{"id": "123","nome": "Zezinho","endereco": "Rua lalala 100"}'
 ```
 
 - Verificar no banco de dados se a entidade foi registrada.
