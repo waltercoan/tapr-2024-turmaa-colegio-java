@@ -9,8 +9,8 @@
             "projectName": "microservcolegio",
             "args": "",
             "envFile": "${workspaceFolder}/.env",
-            "vmArgs": ["-Djavax.net.ssl.trustStore=/workspaces/tapr-2024-turmaa-colegio-java/native.jks",
-                       "-Djavax.net.ssl.trustStorePassword=univille"]
+//            "vmArgs": ["-Djavax.net.ssl.trustStore=/workspaces/tapr-2024-turmaa-colegio-java/native.jks",
+//                       "-Djavax.net.ssl.trustStorePassword=univille"]
 
         }
     ]
